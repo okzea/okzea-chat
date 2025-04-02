@@ -1,0 +1,11 @@
+{
+  "editor.tabSize": 2,
+  "files.exclude": {
+    "dist": true,
+    "node_modules": true
+  },
+  "files.insertFinalNewline": true,
+  "cSpell.words": [
+    "okzea"
+  ]
+}

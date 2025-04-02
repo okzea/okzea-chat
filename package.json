@@ -1,0 +1,39 @@
+{
+  "name": "okzea-chatbot",
+  "version": "1.0.0",
+  "description": "okzea Chatbot WordPress Plugin",
+  "main": "js/okzea-chatbot.js",
+  "scripts": {
+    "build": "gulp build",
+    "dev": "gulp watch"
+  },
+  "keywords": [],
+  "author": "Okzea",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "autoprefixer": "^10.4.21",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.1",
+    "dotenv": "^16.4.7",
+    "gulp": "^5.0.0",
+    "gulp-autoprefixer": "^9.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-cli": "^3.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^6.0.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-terser": "^2.1.0",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^5.0.1",
+    "sass": "^1.85.1",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-ftp": "^0.6.1",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "dependencies": {
+    "litepicker": "^2.0.12"
+  }
+}

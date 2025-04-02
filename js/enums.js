@@ -1,0 +1,60 @@
+export const ENUMS = {
+  AFFILIATE: {
+    holder: 'Assuré principal, emprunteur ou conducteur principal',
+    partner: 'Conjoint(e)',
+    child: 'Enfant',
+  },
+  CCN: ["Accouvage", "Administrateurs et mandataires judiciaires : personnel", "Aéraulique, thermique et frigorifique", "Aéroports : région parisienne", "Agences de mannequins", "Agences télégraphiques", "Agriculture : accords nationaux", "Agriculture : production agricole et CUMA", "Aide à domicile : accompagnement, soins et services", "Alimentation : gérants mandataires non salariés", "Alimentation : industries agroalimentaires (accords nationaux)", "Alimentation : industries agroalimentaires de la Réunion", "Alimentation : industries alimentaires diverses (5 branches)", "Ameublement : fabrication", "Ameublement : négoce", "Animation", "Aquaculture", "Architecture : conseils d'architecture, d'urbanisme et de l'environnement", "Architecture : entreprises", "Artistes interprètes : émissions de télévision", "Artistique : entreprises artistiques et culturelles", "Assainissement et maintenance industrielle", "Assistance", "Assistants maternels", "Associations de gestion et de comptabilité", "Assurances : agences générales", "Assurances : cadres de direction des sociétés", "Assurances : courtage", "Assurances : inspection", "Assurances : sociétés", "Audiovisuel : production", "Audiovisuel : secteur public", "Auto moto de la Réunion", "Automobile", "Autoroutes", "Avocats : personnel salarié", "Avocats au Conseil d'État et à la Cour de cassation : personnel salarié", "Avocats salariés", "Banques", "Bâtiment : cadres", "Bâtiment : ETAM", "Bâtiment : ouvriers", "Bâtiment : ouvriers (régions)", "Bâtiment et travaux publics : Guadeloupe", "Bâtiment et travaux publics : Guyane", "Bâtiment et travaux publics : La Réunion", "Bâtiment et travaux publics : Martinique", "Bétail et viandes", "Bijouterie, joaillerie, orfèvrerie", "Blanchisserie, teinturerie, nettoyage", "Bois : panneaux à base de bois", "Bois d'oeuvre et produits dérivés", "Bois de pin maritime en forêt de Gascogne", "Bois et scieries", "Boissons : distributeurs conseils hors domicile", "Boucherie, boucherie-charcuterie, boucherie hippophagique", "Boulangerie pâtisserie : Guyane", "Boulangerie-pâtisserie : entreprises artisanales", "Boulangerie-pâtisserie : Martinique", "Boulangerie-pâtisserie industrielle", "Boyauderie", "Bricolage", "Bureaux d'études techniques", "Cabinets médicaux", "Cafétérias", "Camping : industries", "Cancer : centres de lutte", "Caoutchouc", "Carrières et matériaux : industries", "Cartonnage : industries", "Casinos", "Centres : hébergement et réadaptation sociale", "Centres d'entraînement : chevaux de courses au galop", "Centres d'entraînement : chevaux de courses au trot", "Centres de gestion agréés", "Centres de gestion agréés et habilités agricoles", "Centres équestres", "Céramique d'art", "Céramiques de France : industries", "Céréales, meunerie, approvisionnement, alimentation (bétail), oléagineux", "Chaînes thématiques", "Champagne", "Charcuterie : industries", "Charcuterie de détail", "Chasse : personnels des structures associatives cynégétiques", "Chaussure : commerce succursaliste", "Chaussure et articles chaussants : industrie", "Chaussures : détaillants", "Chaux : industries", "Chemiserie sur mesure", "Chimie : industries", "Ciments : industrie", "Cinéma : distribution des films", "Cinéma : exploitation"],
+  CIVILITY: {
+    '1': 'Monsieur',
+    '2': 'Madame',
+    '3': 'Mademoiselle',
+  },
+  CONSENT: {
+    '0': 'Aucune indication de consentement au démarchage téléphonique',
+    '1': 'Le contact a donné son consentement au démarchage téléphonique pour ce projet',
+  },
+  CONTACT_TYPE: {
+    private: 'Personne physique',
+    corp: 'Personne morale',
+  },
+  LEGAL_FORM: {
+    EI: 'Entreprise Individuelle',
+    EIRL: 'Entreprise Individuelle à Responsabilité Limitée',
+    SARL: 'Société À Responsabilité Limitée',
+    EURL: 'Société Unipersonnelle à Responsabilité Limitée',
+    SAS: 'Société par Actions Simplifiée',
+    SASU: 'Société par Actions Simplifiée Unipersonnelle',
+    SA: 'Société Anonyme',
+    SNC: 'Société en Nom Collectif',
+    SCA: 'Société en Commandite par Actions',
+    SCI: 'Société Civile Immobilière',
+    SCS: 'Société en Commandite Simple',
+    AE: 'Autoentrepreneur',
+  },
+  MARITAL_STATUS: {
+    single: 'Célibataire',
+    married: 'Marié(e)',
+    concubinage: 'Concubinage',
+    pacs: 'PACSé(e)',
+    widower: 'Veuf(ve)',
+    divorced: 'Divorcé(e)',
+    separated: 'Séparé(e)',
+  },
+  NEED: {
+    new: 'Je n\'ai pas de mutuelle actuellement',
+    change: 'Je veux remplacer mon contrat actuel',
+  },
+  REGIME: {
+    salarie: 'Salarié',
+    tns: 'Travailleur non-salarié (TNS)',
+    alsace_moselle: 'Alsace-Moselle',
+    agricole: 'Exploitant agricole',
+    salarie_agricole: 'Salarié agricole',
+    retraite_salarie: 'Retraité salarié',
+    retraite_tns: 'Retraité TNS',
+    retraite_alsace_moselle: 'Retraité Alsace-Moselle',
+    fonction_publique: 'Fonction publique',
+    etudiant: 'Étudiant',
+  }
+};
