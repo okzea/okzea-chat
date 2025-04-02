@@ -30,7 +30,7 @@ class MututalysChatbot extends HTMLElement {
 
       if (typeof fbq === 'undefined') console.warn('Facebook Pixel not found');
 
-      this.setAssistantName();
+      this.assistantName = 'Lumo';
 
       // Initialize the conversation
       window.DatePicker = DatePicker; // Make DatePicker globally available for the conversation
@@ -66,22 +66,6 @@ class MututalysChatbot extends HTMLElement {
       linkElem.onload = resolve;
       this.shadowRoot.appendChild(linkElem);
     });
-  }
-
-  setAssistantName() {
-    switch (document.location.hostname) {
-      case 'normandiesante.fr':
-        this.assistantName = 'Guillaume';
-        break;
-      case 'ile-de-france-sante.fr':
-        this.assistantName = 'Louis';
-        break;
-      case 'hauts-de-france-sante.fr':
-        this.assistantName = 'Gabriel';
-        break;
-      default:
-        this.assistantName = 'Louis';
-    }
   }
 
   handleSuccess(data) {
