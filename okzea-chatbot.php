@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: okzea Chatbot
- * Description: A chatbot plugin that uses the Oggodata API to generate leads.
+ * Description: A chatbot plugin generates leads.
  * Version: 1.0
  * Author: Okzea
  * Author URI: https://okzea.com
@@ -11,7 +11,6 @@ require_once 'okzea-chatbot-settings.php';
 require_once 'okzea-chatbot-datatable.php';
 require_once 'okzea-chatbot-menu.php';
 require_once 'okzea-chatbot-save-submission.php';
-require_once 'okzea-chatbot-oggodata.php';
 
 // Add Facebook Pixel
 function okzea_chatbot_facebook_pixel() {
@@ -50,7 +49,7 @@ add_action('wp_enqueue_scripts', 'okzea_chatbot_enqueue_scripts');
 
 // Create a rewrite rule for the /chatbot slug
 function okzea_chatbot_rewrite_rule() {
-    add_rewrite_rule('^chatbot/?$', 'index.php?okzea_chatbot=1', 'top');
+    add_rewrite_rule('^chat/?$', 'index.php?okzea_chatbot=1', 'top');
 }
 add_action('init', 'okzea_chatbot_rewrite_rule');
 

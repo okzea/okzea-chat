@@ -9,10 +9,7 @@ function okzea_chatbot_settings_init()
 {
     // Register a new setting for "okzea_chatbot" page
     register_setting('okzea_chatbot', 'okzea_chatbot_form_id');
-    register_setting('okzea_chatbot', 'okzea_chatbot_oggodata_consumer_key');
-    register_setting('okzea_chatbot', 'okzea_chatbot_oggodata_consumer_secret');
     register_setting('okzea_chatbot', 'okzea_chatbot_webhook_url');
-    register_setting('okzea_chatbot', 'okzea_chatbot_learnybox_api_key');
     register_setting('okzea_chatbot', 'okzea_chatbot_facebook_pixel_id');
 
     // Add a new section in the "okzea_chatbot" page
@@ -21,22 +18,6 @@ function okzea_chatbot_settings_init()
         __('Webhook Integration Settings', 'okzea-chatbot'),
         'okzea_chatbot_section_callback',
         'okzea_chatbot'
-    );
-
-    add_settings_field(
-        'okzea_chatbot_oggodata_consumer_key',
-        __('OGGODATA - Consumer Key', 'okzea-chatbot'),
-        'okzea_chatbot_oggodata_consumer_key_render',
-        'okzea_chatbot',
-        'okzea_chatbot_section'
-    );
-
-    add_settings_field(
-        'okzea_chatbot_oggodata_consumer_secret',
-        __('OGGODATA - Consumer Secret', 'okzea-chatbot'),
-        'okzea_chatbot_oggodata_consumer_secret_render',
-        'okzea_chatbot',
-        'okzea_chatbot_section'
     );
 
     add_settings_field(
@@ -57,17 +38,6 @@ function okzea_chatbot_form_id_render()
 {
     $options = get_option('okzea_chatbot_form_id');
     echo '<input type="text" name="okzea_chatbot_form_id" value="' . esc_attr($options) . '">';
-}
-function okzea_chatbot_oggodata_consumer_key_render()
-{
-    $options = get_option('okzea_chatbot_oggodata_consumer_key');
-    echo '<input type="text" name="okzea_chatbot_oggodata_consumer_key" value="' . esc_attr($options) . '">';
-}
-
-function okzea_chatbot_oggodata_consumer_secret_render()
-{
-    $options = get_option('okzea_chatbot_oggodata_consumer_secret');
-    echo '<input type="text" name="okzea_chatbot_oggodata_consumer_secret" value="' . esc_attr($options) . '">';
 }
 
 function okzea_chatbot_webhook_url_render()

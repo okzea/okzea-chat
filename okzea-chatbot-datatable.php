@@ -14,7 +14,6 @@ function okzea_chatbot_create_table()
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       submission_data longtext NOT NULL,
       submitted_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-      oggodata_status varchar(20) DEFAULT 'pending',
       PRIMARY KEY  (id)
   ) $charset_collate;";
 
@@ -119,7 +118,6 @@ function okzea_chatbot_display_submissions()
   echo '<th style="width: 50px;">ID</th>';
   echo '<th>Nom / Prénom</th>';
   echo '<th>UTMs</th>';
-  echo '<th style="width: 140px;">OGGODATA</th>';
   echo '<th style="width: 140px;">Date</th>';
   echo '<th style="width: 80px;"></th>';
   echo '</tr></thead>';
@@ -150,17 +148,6 @@ function okzea_chatbot_display_submissions()
     }
 
     echo '</div>';
-    echo '</td>';
-
-    // Display 'oggodata_status'
-    echo '<td>';
-    if ($submission->oggodata_status == 'pending') {
-        echo '<span style="color: orange;">⏳ En attente</span>';
-    } elseif ($submission->oggodata_status == 'failed') {
-        echo '<span style="color: red;">❌ Échec</span>';
-    } elseif ($submission->oggodata_status == 'sent') {
-        echo '<span style="color: green;">✅ Envoyé</span>';
-    }
     echo '</td>';
 
     // Display 'submitted_at'

@@ -24,8 +24,7 @@ function okzea_chatbot_save_submission(WP_REST_Request $request)
 
   $submission_data = array(
     'submission_data' => serialize($data),
-    'submitted_at' => current_time('mysql', 1),
-    'oggodata_status' => 'pending', // Initial status
+    'submitted_at' => current_time('mysql', 1)
   );
 
   $wpdb->insert($wpdb->prefix . 'okzea_chatbot_submissions', $submission_data);
