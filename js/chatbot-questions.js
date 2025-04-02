@@ -2,345 +2,144 @@ import { ENUMS } from './enums';
 
 const questions = [
   {
-    question: "Bonjour, je suis {assistant}, votre conseiller en ligne.",
+    question: "Hello, I'm your online website creation assistant.",
   },
   {
-    question: "Afin de vous aiguiller, j'ai besoin de différentes informations.",
+    question: "Please tell me about you and your website needs so I can help you create the perfect website.",
   },
   {
-    question: "Notre engagement : zéro revente de vos données personnelles à des sociétés tierces. Commençons par évaluer vos besoins de santé."
+    question: "What is your name?",
+    fieldType: "text",
+    fieldName: "contact[name]",
+    placeholder: "Your name",
+    required: true
   },
   {
-    question: "Quels sont vos besoins en soins médicaux courants ?",
+    question: "What is your email address?",
+    fieldType: "email",
+    fieldName: "contact[email]",
+    placeholder: "Your email",
+    required: true
+  },
+  {
+    question: "What is your phone number?",
+    fieldType: "tel",
+    fieldName: "contact[phone]",
+    placeholder: "Your phone number"
+  },
+  {
+    question: "Do you already have a website?",
     fieldType: "radio",
-    fieldName: "wishes[soins]",
-    direction: "column",
+    fieldName: "has_website",
     options: [
-      { value: "1", label: "Aucun" },
-      { value: "2", label: "Peu" },
-      { value: "3", label: "Moyen" },
-      { value: "4", label: "Élevé" },
-      { value: "5", label: "Très élevé" }
+      { value: "yes", label: "Yes" },
+      { value: "no", label: "No" }
     ],
+    required: true
   },
   {
-    question: "Quels sont vos besoins en hospitalisation ?",
+    question: "Do you already own a domain name for the website you want to build?",
+    fieldType: "text",
+    fieldName: "domain_name",
+    placeholder: "Your domain name or 'No'",
+    dependsOn: "has_website",
+    startsWith: "no"
+  },
+  {
+    question: "What's the url of your website?",
+    fieldType: "text",
+    fieldName: "website_url",
+    placeholder: "Your website url",
+    dependsOn: "has_website",
+    startsWith: "yes"
+  },
+  {
+    question: "Please describe the type of business you are running and if there is anything particular you will need on your website.",
+    fieldType: "textarea",
+    fieldName: "business_description",
+    placeholder: "Tell us about your business and website needs"
+  },
+  {
+    question: "Do you already have branding elements for your company such as logo, colors and typography elements?",
     fieldType: "radio",
-    fieldName: "wishes[hospitalisation]",
-    direction: "column",
+    fieldName: "has_branding",
     options: [
-      { value: "1", label: "Aucun" },
-      { value: "2", label: "Peu" },
-      { value: "3", label: "Moyen" },
-      { value: "4", label: "Élevé" },
-      { value: "5", label: "Très élevé" }
-    ],
-  },
-  {
-    question: "Quels sont vos besoins en optique ?",
-    fieldType: "radio",
-    fieldName: "wishes[optique]",
-    direction: "column",
-    options: [
-      { value: "1", label: "Aucun" },
-      { value: "2", label: "Peu" },
-      { value: "3", label: "Moyen" },
-      { value: "4", label: "Élevé" },
-      { value: "5", label: "Très élevé" }
-    ],
-  },
-  {
-    question: "Quels sont vos besoins en dentaire ?",
-    fieldType: "radio",
-    fieldName: "wishes[dentaire]",
-    direction: "column",
-    options: [
-      { value: "1", label: "Aucun" },
-      { value: "2", label: "Peu" },
-      { value: "3", label: "Moyen" },
-      { value: "4", label: "Élevé" },
-      { value: "5", label: "Très élevé" }
-    ],
-  },
-  {
-    question: "Avez-vous besoin d'aides auditives ?",
-    fieldType: "radio",
-    fieldName: "wish_auditive",
-    direction: "column",
-    options: [
-      { value: "1", label: "Aucune" },
-      { value: "2", label: "Peu" },
-      { value: "3", label: "Moyenne" },
-      { value: "4", label: "Élevée" },
-      { value: "5", label: "Très élevée" }
-    ],
-  },
-  {
-    questions: [
-      {
-        fieldName: "insureds[{index}][relationship]",
-        hidden: true,
-        value: "holder",
-        showIf: "{index} === 0"
-      },
-      {
-        question: "Quel est votre lien avec cet assuré ?",
-        fieldType: "select",
-        fieldName: "insureds[{index}][relationship]",
-        options: [
-          { value: "partner", label: "Conjoint" },
-          { value: "child", label: "Enfant" }
-        ],
-        required: true,
-        showIf: "{index} > 0"
-      },
-      {
-        question: {
-          0: "Tout d'abord, quel est votre prénom ?",
-          other: "Quel est le prénom de cette personne ?"
-        },
-        fieldType: "text",
-        fieldName: "insureds[{index}][firstname]",
-        placeholder: {
-          0: "Votre prénom",
-          other: "Son prénom"
-        },
-        required: true
-      },
-      {
-        question: {
-          0: "Et votre nom de famille ?",
-          other: "Et son nom de famille ?"
-        },
-        fieldType: "text",
-        fieldName: "insureds[{index}][lastname]",
-        placeholder: {
-          0: "Votre nom",
-          other: "Son nom"
-        },
-        required: true
-      },
-      {
-        question: {
-          0: "Quelle est votre date de naissance ?",
-          other: "Quelle est la date de naissance de cette personne ?"
-        },
-        fieldType: "date",
-        fieldName: "insureds[{index}][birthdate]",
-        placeholder: {
-          0: "JJ/MM/AAAA",
-          other: "JJ/MM/AAAA"
-        },
-        required: true
-      },
-      {
-        question: {
-          0: "Quelle est votre activité professionnelle ?",
-          other: "Quelle est l'activité professionnelle de cette personne ?"
-        },
-        fieldType: "radio",
-        fieldName: "insureds[{index}][current_activity]",
-        direction: "column",
-        options: [
-          { value: "employed", label: "En activité" },
-          { value: "unemployed", label: "Sans emploi" },
-          { value: "retired", label: "Retraité" }
-        ],
-        required: true
-      },
-      {
-        question: {
-          0: "Quel est votre régime de sécurité sociale ?",
-          other: "Quel est le régime de sécurité sociale de cette personne ?"
-        },
-        fieldType: "radio",
-        fieldName: "insureds[{index}][affiliate]",
-        direction: "column",
-        required: true,
-        dependsOn: "insureds[{index}][current_activity]",
-        optionsSets: {
-          employed: [
-            { value: "salarie", label: ENUMS.REGIME.salarie },
-            { value: "alsace_moselle", label: ENUMS.REGIME.alsace_moselle },
-            { value: "agricole", label: ENUMS.REGIME.agricole },
-            { value: "salarie_agricole", label: ENUMS.REGIME.salarie_agricole },
-            { value: "fonction_publique", label: ENUMS.REGIME.fonction_publique }
-          ],
-          unemployed: [
-            { value: "tns", label: ENUMS.REGIME.tns },
-            { value: "etudiant", label: ENUMS.REGIME.etudiant }
-          ],
-          retired: [
-            { value: "retraite_salarie", label: ENUMS.REGIME.retraite_salarie },
-            { value: "retraite_tns", label: ENUMS.REGIME.retraite_tns },
-            { value: "retraite_alsace_moselle", label: ENUMS.REGIME.retraite_alsace_moselle }
-          ]
-        }
-      },
-      {
-        question: {
-          0: "Souhaitez-vous ajouter une autre personne à assurer ?",
-          other: "Souhaitez-vous ajouter une autre personne à assurer ?"
-        },
-        fieldType: "radio",
-        fieldName: "insureds[{index}][add_another]",
-        options: [
-          { value: "true", label: "Oui" },
-          { value: "false", label: "Non" }
-        ],
-        required: true,
-        addItem: true
-      }
+      { value: "yes", label: "Yes" },
+      { value: "no", label: "No" }
     ]
   },
   {
-    question: "Quel est votre numéro de téléphone ?",
-    fieldType: "tel",
-    fieldName: "contact[phones][0]",
-    placeholder: "Votre numéro de téléphone",
-    required: true
-  },
-  {
-    question: "Quelle est votre adresse email ?",
-    fieldType: "email",
-    fieldName: "contact[email]",
-    placeholder: "Votre email",
-    required: true
-  },
-  {
-    question: "Quelle est votre adresse postale ?",
+    question: "What should be the primary color of your website?",
     fieldType: "text",
-    fieldName: "contact[postal_code]",
-    placeholder: "Votre adresse postale",
-    required: true
+    fieldName: "primary_color",
+    placeholder: "E.g., #FF5733, blue, etc."
   },
   {
-    question: "Voulez-vous contacter directement un conseiller?",
-    fieldName: 'contact_advisor',
-    fieldType: 'radio',
-    dependsOn: 'contact[postal_code]',
-    startsWith: '76',
-    options: [
-      { value: 'yes', label: 'Oui' },
-      { value: 'no', label: 'Non' }
-    ],
-    required: true
-  },
-  {
-    question: "Vous pouvez nous joindre par téléphone au <a href='tel:0800 000 000'>0800 000 000</a> ou par email à <a href='mailto:example@test.com'>example@test.com</a>.",
-    dependsOn: 'contact_advisor',
-    startsWith: 'yes',
-    break: true
-  },
-  {
-    question: "Dans quelle ville habitez-vous ?",
+    question: "What should be the secondary or accent colors of your website?",
     fieldType: "text",
-    fieldName: "contact[locality]",
-    placeholder: "Votre ville",
-    required: true
+    fieldName: "secondary_colors",
+    placeholder: "E.g., #33FF57, red, etc."
   },
   {
-    question: "À partir de quelle date souhaitez-vous être couvert ?",
-    fieldType: "date",
-    fieldName: "effective_date",
-    placeholder: "JJ/MM/AAAA",
-    required: true,
-    dateStartFrom: "today"
+    question: "Do you have a specific typography?",
+    fieldType: "text",
+    fieldName: "typography",
+    placeholder: "E.g., Roboto, Arial, etc."
   },
   {
-    question: "Souhaitez-vous une nouvelle mutuelle ou remplacer votre contrat actuel ?",
-    fieldType: "radio",
-    fieldName: "need",
+    question: "Please share a website that you like and would like your own website to be inspired by (Website 1)",
+    fieldType: "text",
+    fieldName: "reference_website_1",
+    placeholder: "Website URL"
+  },
+  {
+    question: "Please share another website that you like (Website 2)",
+    fieldType: "text",
+    fieldName: "reference_website_2",
+    placeholder: "Website URL"
+  },
+  {
+    question: "Please share one more website that you like (Website 3)",
+    fieldType: "text",
+    fieldName: "reference_website_3",
+    placeholder: "Website URL"
+  },
+  {
+    question: "How should your website feel?",
+    fieldType: "checkbox",
+    fieldName: "website_feel",
     direction: "column",
     options: [
-      { value: "new", label: ENUMS.NEED.new },
-      { value: "change", label: ENUMS.NEED.change }
-    ],
-    required: true
+      { value: "adventurous", label: "Adventurous" },
+      { value: "dark", label: "Dark" },
+      { value: "exotic", label: "Exotic" },
+      { value: "light", label: "Light" },
+      { value: "luxurious", label: "Luxurious" },
+      { value: "minimalistic", label: "Minimalistic" },
+      { value: "modern", label: "Modern" }
+    ]
   },
   {
-    question: "En soumettant ce formulaire, vous acceptez que vos données personnelles soient traitées conformément au Règlement Général sur la Protection des Données (RGPD) et à notre politique de confidentialité. Les informations que vous fournissez seront utilisées uniquement dans le cadre de votre demande de comparaison de mutuelles et pour vous contacter par téléphone afin de vous fournir des informations complémentaires et des devis personnalisés. Acceptez-vous ?",
+    question: "Is there anything else you would like to share?",
+    fieldType: "textarea",
+    fieldName: "additional_info",
+    placeholder: "Additional information"
+  },
+  {
+    question: "How urgently do you need your website?",
     fieldType: "radio",
-    fieldName: "consent",
+    fieldName: "urgency",
+    direction: "column",
     options: [
-      { value: "1", label: "Oui" },
-      { value: "0", label: "Non" }
-    ],
-    required: true,
-    skipTyping: true
-  },
-  {
-    questions: [
-      {
-        fieldName: "contact[lastname]",
-        hidden: true,
-        copyFrom: "insureds[0][lastname]"
-      },
-      {
-        fieldName: "contact[firstname]",
-        hidden: true,
-        copyFrom: "insureds[0][firstname]"
-      },
-      {
-        fieldName: "contact[civility]",
-        hidden: true,
-        copyFrom: "insureds[0][civility]"
-      },
-      {
-        fieldName: "utm_source",
-        hidden: true,
-        value: () => {
-          const urlParams = new URLSearchParams(window.location.search);
-          console.log(urlParams.get('utm_source'));
-          return urlParams.get('utm_source') || 'website';
-        }
-      },
-      {
-        fieldName: "utm_medium",
-        hidden: true,
-        value: () => {
-          const urlParams = new URLSearchParams(window.location.search);
-          return urlParams.get('utm_medium') || '';
-        }
-      },
-      {
-        fieldName: "utm_campaign",
-        hidden: true,
-        value: () => {
-          const urlParams = new URLSearchParams(window.location.search);
-          return urlParams.get('utm_campaign') || '';
-        }
-      },
-      {
-        fieldName: "utm_term",
-        hidden: true,
-        value: () => {
-          const urlParams = new URLSearchParams(window.location.search);
-          return urlParams.get('utm_term') || '';
-        }
-      },
-      {
-        fieldName: "utm_content",
-        hidden: true,
-        value: () => {
-          const urlParams = new URLSearchParams(window.location.search);
-          return urlParams.get('utm_content') || '';
-        }
-      },
-      {
-        fieldName: "note",
-        hidden: true,
-        value: (formData) => {
-          const { location } = document;
-          return `Aides auditives: ${formData['wish_auditive'] || '0'}, Site: ${location.hostname}, Source: ${new URLSearchParams(location.search).get('utm_source') || 'website'}`;
-        }
-      }
+      { value: "asap", label: "As soon as possible" },
+      { value: "2-3-weeks", label: "Within 2 to 3 weeks" },
+      { value: "no-hurry", label: "I'm in no hurry" }
     ]
   },
   {
     submit: true,
-    submitMessage: "Je transmets votre dossier à un expert santé qui vous contactera dans les plus brefs délais.",
-    submitMessageFailed: "Une erreur est survenue lors de la soumission de votre dossier. Veuillez réessayer plus tard."
+    submitMessage: "Thank you for providing your information. We'll review your website request and get back to you soon!",
+    submitMessageFailed: "An error occurred while submitting your request. Please try again later."
   }
 ];
 

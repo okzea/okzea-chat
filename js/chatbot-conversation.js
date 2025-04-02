@@ -238,7 +238,12 @@ export class ChatbotConversation {
     // Start typing effect after a small delay
     setTimeout(() => {
       messageElement.innerHTML = '';
-      typeChar();
+      if (document.location.hostname === 'localhost') {
+        messageElement.innerHTML = message;
+        if (callback) callback();
+      } else {
+        typeChar();
+      }
     }, 500);
   }
 
