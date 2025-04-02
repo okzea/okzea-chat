@@ -29,7 +29,7 @@ export class ChatbotConversation {
       </div>
       <div>
         <div class="avatar-name">${this.assistantName}</div>
-        <div class="avatar-status">En ligne</div>
+        <div class="avatar-status">Online</div>
       </div>
     `;
 
@@ -401,6 +401,12 @@ export class ChatbotConversation {
       } else {
         displayValue = value;
       }
+    }
+
+    // Handle empty answers for optional questions
+    if (!question.required && (!value || value.trim() === '')) {
+      value = '';
+      displayValue = 'No answer';
     }
 
     // Store the answer

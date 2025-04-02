@@ -39,6 +39,8 @@ const globs = [
   '!README.md',
   '!yarn.lock',
   '!error.log',
+  '!okzea-chatbot.zip',
+  '!temp-plugin-dir/**'
 ];
 
 // Create a vinyl-ftp connection
@@ -100,7 +102,7 @@ function watchSCSS() {
 }
 
 // Define tasks
-gulp.task('build', gulp.series(buildJS, buildSCSS, 'deploy'));
+gulp.task('build', gulp.series(buildJS, buildSCSS));
 gulp.task('watch', gulp.series(
   gulp.parallel(buildJS, buildSCSS),
   gulp.parallel(watchJS, watchSCSS),

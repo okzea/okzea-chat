@@ -5,7 +5,9 @@
   "main": "js/okzea-chatbot.js",
   "scripts": {
     "build": "gulp build",
-    "dev": "gulp watch"
+    "dev": "gulp watch",
+    "zip": "./zip-plugin.sh",
+    "package": "npm run build && npm run zip"
   },
   "keywords": [],
   "author": "Okzea",
@@ -28,6 +30,7 @@
     "gulp-terser": "^2.1.0",
     "gulp-util": "^3.0.8",
     "gulp-watch": "^5.0.1",
+    "gulp-zip": "^5.1.0",
     "sass": "^1.85.1",
     "vinyl-buffer": "^1.0.1",
     "vinyl-ftp": "^0.6.1",
