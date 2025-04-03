@@ -10,23 +10,60 @@ body {
   font-family: $font-family;
 }
 
+h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  color: $text;
+}
+
 .card {
   border-radius: $radius;
   border: none;
   background-color: $bg-card;
   color: $text;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
 }
 
 .badge {
   display: inline-block;
   font-size: 0.8em;
-  padding: 3px 5px;
-  background-color: $bg-card;
+  padding: 4px 8px;
+  background-color: $bg-input;
   color: $text;
-  border-radius: 5px;
+  border-radius: 6px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  letter-spacing: 0.3px;
+  font-weight: 500;
+  
+  &.badge-primary {
+    background-color: rgba($primary, 0.2);
+    color: $primary;
+  }
+  
+  &.badge-success {
+    background-color: rgba($success-color, 0.2);
+    color: $success-color;
+  }
+  
+  &.badge-warning {
+    background-color: rgba($warning-color, 0.2);
+    color: $warning-color;
+  }
+  
+  &.badge-danger {
+    background-color: rgba($danger-color, 0.2);
+    color: $danger-color;
+  }
 }
 
 table {
@@ -35,22 +72,31 @@ table {
   border-radius: $radius;
   border: 0 !important;
   overflow: hidden;
-  background-color: $bg-card;
+  background-color: $bg-card !important;
   color: $text;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 table thead th {
   border: 0 !important;
-  color: $text;
+  color: $text-muted !important;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.85em;
+  letter-spacing: 0.5px;
+  padding: 12px 16px;
 }
 
 table tbody tr td {
   vertical-align: middle !important;
-  color: $text;
+  color: $text !important;
+  padding: 14px 16px;
+  border-top: 1px solid $border-color !important;
+  transition: background-color 0.15s ease;
 }
 
 table:hover tbody tr:not(:hover) {
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 table:hover tbody tr:hover td {
@@ -65,17 +111,44 @@ table tbody tr td:last-child {
   border-radius: 0 $radius $radius 0;
 }
 
+#TB_title {
+  background-color: $bg-card !important;
+  color: $text !important;
+}
+
 #TB_window {
   border-radius: $radius !important;
   overflow: hidden;
-  background-color: $bg-dark;
+  background-color: $bg-dark !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-#TB_ajaxContent ul {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  color: $text;
+#TB_ajaxContent {
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $primary;
+  }
+
+  h3 {
+    color: $text !important;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    color: $text;
+  }
 }
 
 #TB_ajaxContent > ul > li,
@@ -89,4 +162,46 @@ table tbody tr td:last-child {
 #TB_ajaxContent > ul > li > ul > li > ul > li {
   width: 50%;
   color: $text;
+}
+
+// Button styles
+.button {
+  border-radius: $radius;
+  padding: 8px 16px;
+  
+  &.button-primary {
+    background-color: $primary;
+    border-color: $primary;
+    
+    &:hover {
+      background-color: darken($primary, 5%);
+    }
+  }
+}
+
+// Links
+a {
+  color: $primary;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: lighten($primary, 10%);
+  }
+}
+
+// Form fields
+input[type="text"], 
+input[type="password"],
+textarea, 
+select {
+  background-color: $bg-input;
+  border: 1px solid $border-color;
+  color: $text;
+  border-radius: $radius;
+  padding: 8px 12px;
+  
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 1px rgba($primary, 0.3);
+  }
 }
