@@ -11,6 +11,7 @@ require_once 'okzea-chatbot-settings.php';
 require_once 'okzea-chatbot-datatable.php';
 require_once 'okzea-chatbot-menu.php';
 require_once 'okzea-chatbot-save-submission.php';
+require_once 'okzea-chatbot-email-notification.php';
 
 // Add Facebook Pixel
 function okzea_chatbot_facebook_pixel() {
