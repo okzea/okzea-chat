@@ -79,7 +79,7 @@ function okzea_chatbot_display_submissions()
     'utm_content' => 'background-color: #d1ecf1; color: #0c5460;',
   );
 
-  echo '<div class="wrap"><h1>Statistiques Chabot okzea</h1>';
+  echo '<div class="wrap"><h1>Okzea Chatbot Statistics</h1>';
 
   // Display cards with stats (utm source, medium, campaign, term, content)
   echo '<div style="display: flex; gap: 10px; margin-bottom: 20px;">';
@@ -100,14 +100,14 @@ function okzea_chatbot_display_submissions()
 
   echo '<div class="card" style="flex: 1;">';
   echo '<div class="card-body">';
-  echo '<p class="card-title">Source Meta <h1>' . esc_html($submissionsCount) . ' <small>(' . esc_html($submissionsCountAsPercentage) . '%)</small></h1></p>';
+  echo '<p class="card-title">Meta Source <h1>' . esc_html($submissionsCount) . ' <small>(' . esc_html($submissionsCountAsPercentage) . '%)</small></h1></p>';
   echo '</div></div>';
 
   echo '</div>';
 
   // color legend
   echo '<div style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 5px; align-items: center;">';
-  echo '<span><b>Légende UTMs</b></span>';
+  echo '<span><b>UTM Legend</b></span>';
   foreach ($utms as $key => $color) {
     echo '<span class="badge badge-secondary" style="' . $color . '">' . esc_html($key) . '</span>';
   }
@@ -116,7 +116,9 @@ function okzea_chatbot_display_submissions()
   echo '<table class="wp-list-table widefat fixed">';
   echo '<thead><tr>';
   echo '<th style="width: 50px;">ID</th>';
-  echo '<th>Nom / Prénom</th>';
+  echo '<th>Name</th>';
+  echo '<th>Has Website</th>';
+  echo '<th>Urgency</th>';
   echo '<th>UTMs</th>';
   echo '<th style="width: 140px;">Date</th>';
   echo '<th style="width: 80px;"></th>';
@@ -130,9 +132,23 @@ function okzea_chatbot_display_submissions()
     // Display 'id'
     echo '<td>' . esc_html($submission->id) . '</td>';
 
-    // Display 'lastname' & 'firstname'
-    if (isset($data['contact'])) {
-        echo '<td><b>' . esc_html($data['contact']['lastname']) . '</b> ' . esc_html($data['contact']['firstname']) . '</td>';
+    // Display 'name'
+    if (isset($data['contact']['name'])) {
+        echo '<td>' . esc_html($data['contact']['name']) . '</td>';
+    } else {
+        echo '<td>N/A</td>';
+    }
+
+    // Display 'has_website'
+    if (isset($data['has_website'])) {
+        echo '<td>' . esc_html($data['has_website']) . '</td>';
+    } else {
+        echo '<td>N/A</td>';
+    }
+
+    // Display 'urgency'
+    if (isset($data['urgency'])) {
+        echo '<td>' . esc_html($data['urgency']) . '</td>';
     } else {
         echo '<td>N/A</td>';
     }
@@ -156,7 +172,7 @@ function okzea_chatbot_display_submissions()
     // Display 'data' in a modal dialog
     echo '<td style="text-align: center;">';
     add_thickbox();
-    echo '<a href="#TB_inline?width=600&height=550&inlineId=okzea_chatbot_submission_data_' . $submission->id . '" class="thickbox">Voir data</a>';
+    echo '<a href="#TB_inline?width=600&height=550&inlineId=okzea_chatbot_submission_data_' . $submission->id . '" class="thickbox">View data</a>';
     echo '<div id="okzea_chatbot_submission_data_' . $submission->id . '" style="display:none;">';
     echo okzea_chatbot_recursive_list($data);
     echo '</div>';

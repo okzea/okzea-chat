@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
  */
 function okzea_chatbot_send_email_notification($submission_id) {
   global $wpdb;
-  
+
   // Get the submission data
   $submission = $wpdb->get_row(
     $wpdb->prepare(
@@ -17,23 +17,23 @@ function okzea_chatbot_send_email_notification($submission_id) {
       $submission_id
     )
   );
-  
+
   if (!$submission) {
     return;
   }
-  
+
   // Unserialize the submission data
   $data = unserialize($submission->submission_data);
-  
+
   // Get admin email
   $admin_email = get_option('admin_email');
-  
+
   // Prepare email subject
   $subject = '[' . get_bloginfo('name') . '] New Chatbot Submission';
-  
+
   // Prepare email body
   $body = "A new submission has been received from the chatbot:\n\n";
-  
+
   // Format the submission data for the email
   foreach ($data as $key => $value) {
     if (is_array($value)) {
