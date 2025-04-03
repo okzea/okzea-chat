@@ -46,7 +46,7 @@ function okzea_chatbot_options_page()
     settings_errors('okzea_chatbot_messages');
 
     // Enqueue admin styles
-    wp_enqueue_style('okzea-chatbot-admin-style', plugin_dir_url(__FILE__) . 'css/okzea-chatbot-admin.css');
+    wp_enqueue_style('okzea-chatbot-admin-style', plugin_dir_url(__FILE__) . 'css/okzea-chatbot-admin.css?v=1.0.1');
 ?>
     <div class="wrap">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>

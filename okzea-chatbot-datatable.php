@@ -65,7 +65,7 @@ function okzea_chatbot_display_submissions()
   global $wpdb;
 
   // Enqueue admin styles
-  wp_enqueue_style('okzea-chatbot-admin-style', plugin_dir_url(__FILE__) . 'dist/css/okzea-chatbot-admin.min.css');
+  wp_enqueue_style('okzea-chatbot-admin-style', plugin_dir_url(__FILE__) . 'dist/css/okzea-chatbot-admin.min.css?v=1.0.1');
 
   $table_name = $wpdb->prefix . 'okzea_chatbot_submissions';
   $submissions = $wpdb->get_results("SELECT * FROM $table_name ORDER BY id DESC");

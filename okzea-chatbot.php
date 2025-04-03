@@ -2,7 +2,7 @@
 /**
  * Plugin Name: okzea Chatbot
  * Description: A chatbot plugin generates leads.
- * Version: 1.0
+ * Version: 1.0.1
  * Author: Okzea
  * Author URI: https://okzea.com
  */
@@ -44,10 +44,10 @@ add_action('wp_head', 'okzea_chatbot_facebook_pixel');
 
 // Enqueue the JavaScript file
 function okzea_chatbot_enqueue_scripts() {
-    wp_enqueue_script('okzea-chatbot-script', plugins_url('/dist/js/okzea-chatbot.min.js', __FILE__), array(), '1.0', true);
-    
+    wp_enqueue_script('okzea-chatbot-script', plugins_url('/dist/js/okzea-chatbot.min.js', __FILE__), array(), '1.0.1', true);
+
     // Enqueue the contact modal script
-    wp_enqueue_script('okzea-contact-modal-script', plugins_url('/dist/js/okzea-contact-modal.min.js', __FILE__), array(), '1.0', true);
+    wp_enqueue_script('okzea-contact-modal-script', plugins_url('/dist/js/okzea-contact-modal.min.js', __FILE__), array(), '1.0.1', true);
 }
 add_action('wp_enqueue_scripts', 'okzea_chatbot_enqueue_scripts');
 

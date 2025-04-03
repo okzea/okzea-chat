@@ -62,7 +62,7 @@ class MututalysChatbot extends HTMLElement {
     return new Promise((resolve) => {
       const linkElem = document.createElement('link');
       linkElem.setAttribute('rel', 'stylesheet');
-      linkElem.setAttribute('href', '/wp-content/plugins/okzea-chatbot/dist/css/okzea-chatbot.min.css');
+      linkElem.setAttribute('href', '/wp-content/plugins/okzea-chatbot/dist/css/okzea-chatbot.min.css?v=1.0.1');
       linkElem.onload = resolve;
       this.shadowRoot.appendChild(linkElem);
     });
