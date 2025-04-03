@@ -48,8 +48,17 @@ $emailSVG: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width
   font-size: $font-size;
   color: $text;
 
-  @media (min-width: 782px) {
-    padding-right: $spacer;
+  // Scrollbar
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $primary;
   }
 }
 
@@ -88,8 +97,8 @@ $emailSVG: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   overflow: hidden;
   margin-right: 12px;

@@ -106,7 +106,7 @@ const questions = [
   },
   {
     question: "How should your website feel?",
-    fieldType: "checkbox",
+    fieldType: "radio",
     fieldName: "website_feel",
     direction: "column",
     options: [

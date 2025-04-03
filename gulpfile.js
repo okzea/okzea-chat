@@ -57,8 +57,8 @@ gulp.task('deploy', function () {
     .pipe(conn.dest(process.env.FTP_PATH));
 });
 
-// JavaScript build task
-function buildJS() {
+// JavaScript build task for main chatbot script
+function buildChatbotJS() {
   return browserify({
     entries: './js/okzea-chatbot.js',
     debug: true,
@@ -74,6 +74,32 @@ function buildJS() {
     .pipe(rename({ suffix: '.min' }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./dist/js/'));
+}
+
+// JavaScript build task for contact modal
+function buildContactModalJS() {
+  return browserify({
+    entries: './js/okzea-contact-modal.js',
+    debug: true,
+    transform: [babelify.configure({
+      presets: ['@babel/preset-env']
+    })]
+  })
+    .bundle()
+    .pipe(source('okzea-contact-modal.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(terser())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./dist/js/'));
+}
+
+// Build all JS files
+async function buildJS() {
+  return new Promise((resolve) => {
+    gulp.parallel(buildChatbotJS, buildContactModalJS)(resolve);
+  });
 }
 
 // Watch task for development
