@@ -1,7 +1,10 @@
+@use 'sass:color';
+
 // Color Variables
 $light: #19191b;
 $dark: #121214;
-$primary: #00dcd6;
+$primary: #3b82f6;
+$primary-dark: color.adjust($primary, $lightness: -5%);
 $secondary: #b3f94d;
 $white: #FFFFFF;
 $black: #000000;

@@ -115,101 +115,93 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createQuestionElement(question) {
         const li = document.createElement('li');
-        // Match screenshot: White background, slight shadow, border, padding Y, no margin X
-        li.className = 'question-item bg-white border border-gray-200 shadow-sm flex flex-col mb-1';
+        li.className = 'question-item';
         li.dataset.questionTempId = question.temp_id;
         li.draggable = true;
 
         const contentDiv = document.createElement('div');
-        // Match screenshot: Flex layout, vertical center, padding, gap
-        contentDiv.className = 'question-content px-3 py-2 flex items-center gap-2'; // No bottom border needed on item div
+        contentDiv.className = 'question-content';
 
         const handleSpan = document.createElement('span');
-        // Match screenshot: Grab cursor, gray color, slight padding
-        handleSpan.className = 'drag-handle text-gray-500 hover:text-gray-700 cursor-grab px-1';
-        handleSpan.innerHTML = '&#x2630;'; // Drag handle icon (Triple Bar)
+        handleSpan.className = 'drag-handle';
+        handleSpan.innerHTML = '&#x2630;';
         handleSpan.title = 'Drag to reorder';
 
         const textSpan = document.createElement('span');
-        // Match screenshot: Grow to fill space, default text color
-        textSpan.className = 'question-text flex-grow text-gray-800';
+        textSpan.className = 'question-text';
         textSpan.textContent = question.question_text || '(No question text)';
 
         const typeSpan = document.createElement('span');
-        let typeLabel = 'Message'; // Default for non-interactive
-        let typeBgClass = 'bg-gray-100';
-        let typeTextClass = 'text-gray-600';
+        let typeLabel = 'Message';
+        let typeClass = '';
 
         if (question.is_group) {
             typeLabel = 'Group';
-            typeBgClass = 'bg-blue-100';
-            typeTextClass = 'text-blue-800';
+            typeClass = 'type-group';
         } else if (question.is_submit) {
             typeLabel = 'Submit';
-            typeBgClass = 'bg-green-100';
-            typeTextClass = 'text-green-800';
+            typeClass = 'type-submit';
         } else if (question.field_type) {
             typeLabel = question.field_type.charAt(0).toUpperCase() + question.field_type.slice(1);
-             // Add more type-specific colors if desired
             switch (question.field_type) {
-                 case 'text':
-                 case 'textarea':
-                 case 'email':
-                 case 'tel':
-                 case 'number':
-                     typeBgClass = 'bg-purple-100';
-                     typeTextClass = 'text-purple-800';
-                     break;
-                 case 'radio':
-                 case 'select':
-                     typeBgClass = 'bg-yellow-100';
-                     typeTextClass = 'text-yellow-800';
-                     break;
-                  // Add other cases as needed
+                case 'text':
+                case 'textarea':
+                case 'email':
+                case 'tel':
+                case 'number':
+                    typeClass = 'type-input';
+                    break;
+                case 'radio':
+                case 'select':
+                    typeClass = 'type-choice';
+                    break;
+                case 'date':
+                    typeClass = 'type-date';
+                    break;
+                case 'range':
+                    typeClass = 'type-range';
+                    break;
+                case 'hidden':
+                    typeClass = 'type-hidden';
+                    break;
             }
         }
-        // Match screenshot: Small text, padding, rounded corners, specific background/text colors
-        typeSpan.className = `question-type text-xs ${typeBgClass} ${typeTextClass} px-2 py-0.5 rounded-full whitespace-nowrap font-medium`;
+
+        typeSpan.className = `question-type ${typeClass}`;
         typeSpan.textContent = typeLabel;
 
         contentDiv.appendChild(handleSpan);
         contentDiv.appendChild(textSpan);
         contentDiv.appendChild(typeSpan);
 
-        // Edit Button Container (to push button right)
         const buttonContainer = document.createElement('div');
-        buttonContainer.className = 'ml-auto pl-2'; // Margin left auto pushes it right, padding left for spacing
+        buttonContainer.className = 'button-container';
 
         const editButton = document.createElement('button');
         editButton.type = 'button';
-        // Match screenshot: Standard WP small button style
-        editButton.className = 'edit-question-btn button button-small button-secondary';
+        editButton.className = 'button button-secondary button-small';
         editButton.textContent = 'Edit';
         editButton.onclick = () => openEditor(question.temp_id);
         buttonContainer.appendChild(editButton);
 
-        // Add Sub-Question Button (only for groups)
         if (question.is_group) {
             const addSubButton = document.createElement('button');
             addSubButton.type = 'button';
-            addSubButton.className = 'add-sub-question-btn button button-small button-secondary ml-1'; // Small margin left
+            addSubButton.className = 'button button-secondary button-small';
             addSubButton.textContent = 'Add Sub';
             addSubButton.onclick = () => addSubQuestion(question.temp_id);
             buttonContainer.appendChild(addSubButton);
         }
 
-        contentDiv.appendChild(buttonContainer); // Add button container to contentDiv
+        contentDiv.appendChild(buttonContainer);
         li.appendChild(contentDiv);
 
-        // Container for Sub-Questions (Match screenshot indentation and styling)
         if (question.is_group) {
             const subList = document.createElement('ul');
-            // Match screenshot: Indentation, padding, light bg, dashed border
-            subList.className = 'sub-question-list question-list-area ml-8 my-1 mr-2 p-3 bg-gray-50 border border-dashed border-gray-300 rounded min-h-[40px] space-y-1';
-            addListDragDropListeners(subList); // Make sub-list droppable
+            subList.className = 'sub-question-list question-list-area';
+            addListDragDropListeners(subList);
             li.appendChild(subList);
 
-            // Render sub-questions recursively
             if (question.sub_questions && question.sub_questions.length > 0) {
                 question.sub_questions.forEach(subQ => {
                     const subLi = createQuestionElement(subQ);
@@ -218,7 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Add drag listeners to the item itself
         li.addEventListener('dragstart', handleDragStart);
         li.addEventListener('dragend', handleDragEnd);
 
@@ -386,8 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Editor Modal ---
     function openEditor(tempId = null) {
         if (!questionForm || !questionEditorModal || !questionEditorOverlay) return;
-        questionForm.reset(); // Clear previous form data
-        // Hide all conditional fields
+        questionForm.reset();
         questionForm.querySelectorAll('.field-specific').forEach(el => el.style.display = 'none');
         questionForm.querySelector('#edit-question-id').value = '';
         questionForm.querySelector('#edit-question-parent-id').value = '0';
@@ -395,7 +385,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const titleElement = questionEditorModal.querySelector('h2');
 
         if (tempId) {
-            // Editing existing question
             const found = findQuestionByTempId(tempId);
             if (!found) {
                 alert('Error: Could not find question to edit.');
@@ -413,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const fieldType = question.is_group ? 'group' : (question.is_submit ? 'submit' : (question.field_type || ''));
             if(fieldTypeSelect) {
                 fieldTypeSelect.value = fieldType;
-                fieldTypeSelect.dispatchEvent(new Event('change')); // Trigger change
+                fieldTypeSelect.dispatchEvent(new Event('change'));
             }
             setInputValue('field-name', question.field_name);
             setInputValue('placeholder', question.placeholder);
@@ -422,31 +411,31 @@ document.addEventListener('DOMContentLoaded', () => {
             setInputValue('static-value', question.static_value);
             setInputValue('copy-from', question.copy_from);
 
-             // Handle Options/OptionsSets
-             const optionsTextarea = document.getElementById('options');
-             if (optionsTextarea) {
-                 if (question.optionsSets) {
-                     let optionsText = '';
-                     for (const key in question.optionsSets) {
-                         optionsText += `${key}:${JSON.stringify(question.optionsSets[key])}\n`;
-                     }
-                     optionsTextarea.value = optionsText.trim();
-                 } else if (question.options) {
-                     if (Array.isArray(question.options)) {
-                         optionsTextarea.value = question.options.map(opt => `${opt.value}:${opt.label}`).join('\n');
-                     } else {
-                         optionsTextarea.value = JSON.stringify(question.options);
-                     }
-                 } else {
-                     optionsTextarea.value = '';
-                 }
-             }
+            // Handle Options/OptionsSets
+            const optionsTextarea = document.getElementById('options');
+            if (optionsTextarea) {
+                if (question.optionsSets) {
+                    let optionsText = '';
+                    for (const key in question.optionsSets) {
+                        optionsText += `${key}:${JSON.stringify(question.optionsSets[key])}\n`;
+                    }
+                    optionsTextarea.value = optionsText.trim();
+                } else if (question.options) {
+                    if (Array.isArray(question.options)) {
+                        optionsTextarea.value = question.options.map(opt => `${opt.value}:${opt.label}`).join('\n');
+                    } else {
+                        optionsTextarea.value = JSON.stringify(question.options);
+                    }
+                } else {
+                    optionsTextarea.value = '';
+                }
+            }
 
             setInputValue('direction', question.direction || 'default');
             setInputValue('min-value', question.min_value);
             setInputValue('max-value', question.max_value);
             setInputValue('step-value', question.step_value ?? '1');
-            setInputValue('default-value', question.default_value); // Range default
+            setInputValue('default-value', question.default_value);
             setInputValue('date-start-from', question.date_start_from);
             setInputValue('depends-on', question.depends_on);
             setInputValue('starts-with', question.starts_with);
@@ -458,38 +447,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if(deleteQuestionBtn) deleteQuestionBtn.style.display = 'inline-block';
         } else {
-            // Adding new question
             if(titleElement) titleElement.textContent = 'Add New Question';
-            questionForm.dataset.tempId = ''; // Indicate new question
-             if(fieldTypeSelect) {
+            questionForm.dataset.tempId = '';
+            if(fieldTypeSelect) {
                 fieldTypeSelect.value = '';
                 fieldTypeSelect.dispatchEvent(new Event('change'));
             }
             if(deleteQuestionBtn) deleteQuestionBtn.style.display = 'none';
         }
 
+        // Show modal with animation
         questionEditorOverlay.style.display = 'block';
         questionEditorModal.style.display = 'block';
+        // Force reflow
+        questionEditorModal.offsetHeight;
+        questionEditorOverlay.classList.add('visible');
+        questionEditorModal.classList.add('visible');
+
+        // Focus first input after animation
         setTimeout(() => {
-             questionEditorOverlay.style.opacity = '1';
-             questionEditorModal.style.opacity = '1';
-             questionEditorModal.style.transform = 'translate(-50%, -50%) scale(1)';
-        }, 10); // Allow display change to render before transition
+            const firstInput = questionEditorModal.querySelector('input, textarea, select');
+            if (firstInput) firstInput.focus();
+        }, 300);
     }
 
     function closeEditor() {
-         if (!questionEditorModal || !questionEditorOverlay) return;
-          questionEditorModal.style.opacity = '0';
-          questionEditorModal.style.transform = 'translate(-50%, -50%) scale(0.9)';
-         questionEditorOverlay.style.opacity = '0';
-         setTimeout(() => {
-             questionEditorModal.style.display = 'none';
-             questionEditorOverlay.style.display = 'none';
-             if(questionForm) {
+        if (!questionEditorModal || !questionEditorOverlay) return;
+
+        // Hide with animation
+        questionEditorModal.classList.remove('visible');
+        questionEditorOverlay.classList.remove('visible');
+
+        setTimeout(() => {
+            questionEditorModal.style.display = 'none';
+            questionEditorOverlay.style.display = 'none';
+            if(questionForm) {
                 questionForm.reset();
                 delete questionForm.dataset.tempId;
-             }
-         }, 300); // Match transition duration
+            }
+        }, 300);
     }
     
     // Helper to set input value safely

@@ -1,2 +1,0 @@
-@tailwind base;@tailwind components;@tailwind utilities;.question-item-placeholder{@apply bg-gray-200 border-2 border-dashed border-gray-400 mb-2 block;list-style:none;box-sizing:border-box}.question-item.dragging{@apply opacity-50 bg-blue-100;}.question-list-area.drag-over{@apply bg-blue-50 border-blue-300;}.form-actions .button{float:none}
-/*# sourceMappingURL=admin-input.min.css.map */

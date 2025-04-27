@@ -1,4 +1,6 @@
 @use 'variables' as *;
+@use 'sass:color';
+@use 'builder';
 @import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700&display=swap');
 
 body {
@@ -168,14 +170,44 @@ table tbody tr td:last-child {
 .button {
   border-radius: $radius;
   padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
   
   &.button-primary {
-    background-color: $primary;
+    background: $primary;
     border-color: $primary;
+    color: white;
     
     &:hover {
-      background-color: darken($primary, 5%);
+      background: color.adjust($primary, $lightness: -5%);
+      border-color: color.adjust($primary, $lightness: -5%);
+      transform: translateY(-1px);
     }
+    
+    &:disabled {
+      background: color.adjust($primary, $lightness: 20%);
+      border-color: color.adjust($primary, $lightness: 20%);
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+  
+  &.button-secondary {
+    background: $bg-input;
+    border-color: $border-color;
+    color: $text;
+    
+    &:hover {
+      background: color.adjust($bg-input, $lightness: -5%);
+      border-color: color.adjust($border-color, $lightness: -10%);
+      transform: translateY(-1px);
+    }
+  }
+  
+  &.button-small {
+    padding: 4px 12px;
+    font-size: 13px;
   }
 }
 
@@ -185,7 +217,7 @@ a {
   transition: color 0.2s ease;
   
   &:hover {
-    color: lighten($primary, 10%);
+    color: color.adjust($primary, $lightness: 10%);
   }
 }
 
@@ -199,9 +231,28 @@ select {
   color: $text;
   border-radius: $radius;
   padding: 8px 12px;
+  transition: all 0.2s ease;
   
   &:focus {
     border-color: $primary;
-    box-shadow: 0 0 0 1px rgba($primary, 0.3);
+    box-shadow: 0 0 0 2px rgba($primary, 0.1);
+    outline: none;
+  }
+}
+
+// Checkbox and Radio
+input[type="checkbox"],
+input[type="radio"] {
+  border: 2px solid $border-color;
+  background-color: $bg-input;
+  
+  &:checked {
+    background-color: $primary;
+    border-color: $primary;
+  }
+  
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 2px rgba($primary, 0.1);
   }
 }
