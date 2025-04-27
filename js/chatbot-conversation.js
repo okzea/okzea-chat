@@ -1,6 +1,8 @@
 import * as FormHelpers from './form-helpers';
-import Questions from './chatbot-questions';
 import { FormSubmission } from './form-submission';
+
+// Access questions from localized global variable
+const Questions = window.chatbotSettings?.questions || []; // Use optional chaining and provide default empty array
 
 export class ChatbotConversation {
   constructor(assistantName, shadowRoot) {
@@ -124,7 +126,17 @@ export class ChatbotConversation {
       return;
     }
 
-    const question = Questions[this.currentQuestion];
+    // Access question from the (potentially global) Questions array
+    const question = Questions[this.currentQuestion]; 
+
+    // Check if question exists
+    if (!question) {
+        console.error(`Error: Question index ${this.currentQuestion} out of bounds or Questions array empty.`);
+        // Optionally display an error message to the user or stop the conversation
+        this.displayMessage("Sorry, an error occurred loading the next question.", () => {});
+        this.conversationComplete = true; // Prevent further processing
+        return;
+    }
 
     // Check if this question is conditional based on a startsWith condition
     if (question.dependsOn && question.startsWith) {
@@ -420,7 +432,7 @@ export class ChatbotConversation {
         fieldName,
         value,
         displayValue,
-        totalQuestions: Questions.length + this.subQuestions.length
+        totalQuestions: Questions.length
       },
       bubbles: true,
       composed: true

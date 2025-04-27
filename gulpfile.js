@@ -11,6 +11,7 @@ const terser = require('gulp-terser');
 const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const sass = require('gulp-sass')(require('sass'));
+const cleanCSS = require('gulp-clean-css');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -53,11 +54,11 @@ gulp.task('deploy', function () {
   const conn = getFtpConnection();
 
   return gulp.src(globs, { base: '.', buffer: false })
-    .pipe(conn.newer(process.env.FTP_PATH)) // only upload newer files
+    .pipe(conn.newer(process.env.FTP_PATH))
     .pipe(conn.dest(process.env.FTP_PATH));
 });
 
-// JavaScript build task for main chatbot script
+// JavaScript build tasks
 function buildChatbotJS() {
   return browserify({
     entries: './js/okzea-chatbot.js',
@@ -76,7 +77,6 @@ function buildChatbotJS() {
     .pipe(gulp.dest('./dist/js/'));
 }
 
-// JavaScript build task for contact modal
 function buildContactModalJS() {
   return browserify({
     entries: './js/okzea-contact-modal.js',
@@ -95,10 +95,32 @@ function buildContactModalJS() {
     .pipe(gulp.dest('./dist/js/'));
 }
 
+function buildBuilderJS() {
+  return browserify({
+    entries: './js/chatbot-builder.js',
+    debug: true,
+    transform: [babelify.configure({
+      presets: ['@babel/preset-env']
+    })]
+  })
+    .bundle()
+    .on('error', function(err) {
+      gutil.log(gutil.colors.red('[Error]'), err.toString());
+      this.emit('end');
+    })
+    .pipe(source('okzea-chatbot-builder.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(terser())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./dist/js/'));
+}
+
 // Build all JS files
 async function buildJS() {
   return new Promise((resolve) => {
-    gulp.parallel(buildChatbotJS, buildContactModalJS)(resolve);
+    gulp.parallel(buildChatbotJS, buildContactModalJS, buildBuilderJS)(resolve);
   });
 }
 
@@ -109,13 +131,9 @@ function watchJS() {
 
 // SCSS build task
 async function buildSCSS() {
-  const autoprefixer = (await import('gulp-autoprefixer')).default;
-  const cleanCSS = (await import('gulp-clean-css')).default;
-
   return gulp.src('./scss/**/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
-    .pipe(autoprefixer())
     .pipe(cleanCSS())
     .pipe(rename({ suffix: '.min' }))
     .pipe(sourcemaps.write('./'))
@@ -129,9 +147,11 @@ function watchSCSS() {
 
 // Define tasks
 gulp.task('build', gulp.series(buildJS, buildSCSS));
+
+// Watch task
 gulp.task('watch', gulp.series(
   gulp.parallel(buildJS, buildSCSS),
-  gulp.parallel(watchJS, watchSCSS),
+  gulp.parallel(watchJS, watchSCSS)
 ));
 
 // Default task
