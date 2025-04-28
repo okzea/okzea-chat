@@ -127,9 +127,22 @@ document.addEventListener('DOMContentLoaded', () => {
         handleSpan.innerHTML = '&#x2630;';
         handleSpan.title = 'Drag to reorder';
 
+        // Create text container to hold both field name and question text
+        const textContainer = document.createElement('div');
+        textContainer.className = 'text-container';
+        
+        // Add field name label if exists
+        if (question.field_name && !question.is_group && !question.is_submit) {
+            const fieldNameLabel = document.createElement('span');
+            fieldNameLabel.className = 'field-name-label';
+            fieldNameLabel.textContent = question.field_name;
+            textContainer.appendChild(fieldNameLabel);
+        }
+
         const textSpan = document.createElement('span');
         textSpan.className = 'question-text';
         textSpan.textContent = question.question_text || '(No question text)';
+        textContainer.appendChild(textSpan);
 
         const typeSpan = document.createElement('span');
         let typeLabel = 'Message';
@@ -171,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         typeSpan.textContent = typeLabel;
 
         contentDiv.appendChild(handleSpan);
-        contentDiv.appendChild(textSpan);
+        contentDiv.appendChild(textContainer);
         contentDiv.appendChild(typeSpan);
 
         const buttonContainer = document.createElement('div');
@@ -400,10 +413,21 @@ document.addEventListener('DOMContentLoaded', () => {
             // Populate form fields
             document.getElementById('question-text').value = question.question_text || '';
             const fieldType = question.is_group ? 'group' : (question.is_submit ? 'submit' : (question.field_type || ''));
+            
+            console.log('Setting field type to:', fieldType);
+            
+            // Set field type and manually trigger change
             if(fieldTypeSelect) {
                 fieldTypeSelect.value = fieldType;
-                fieldTypeSelect.dispatchEvent(new Event('change'));
+                
+                // Use a more reliable way to trigger the change event
+                const event = new Event('change', { bubbles: true });
+                fieldTypeSelect.dispatchEvent(event);
+                
+                // Also call the handler directly to ensure it runs
+                setTimeout(() => handleFieldTypeChange(), 0);
             }
+            
             setInputValue('field-name', question.field_name);
             setInputValue('placeholder', question.placeholder);
             setInputChecked('is-required', question.is_required);
@@ -451,7 +475,13 @@ document.addEventListener('DOMContentLoaded', () => {
             questionForm.dataset.tempId = '';
             if(fieldTypeSelect) {
                 fieldTypeSelect.value = '';
-                fieldTypeSelect.dispatchEvent(new Event('change'));
+                
+                // Use the same reliable method to trigger change
+                const event = new Event('change', { bubbles: true });
+                fieldTypeSelect.dispatchEvent(event);
+                
+                // Also call the handler directly
+                setTimeout(() => handleFieldTypeChange(), 0);
             }
             if(deleteQuestionBtn) deleteQuestionBtn.style.display = 'none';
         }
@@ -506,60 +536,68 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleFieldTypeChange() {
         if(!fieldTypeSelect || !questionForm) return;
         const selectedType = fieldTypeSelect.value;
+        
+        console.log("Type changed to:", selectedType);
+
+        // Log all field-specific elements and their depends-on attributes
+        console.log("All field-specific rows:", Array.from(questionForm.querySelectorAll('.field-specific')).map(el => {
+            return {
+                element: el,
+                dependsOn: el.getAttribute('data-depends-on'),
+                currentDisplay: el.style.display
+            };
+        }));
 
         // Hide all field-specific rows first
-        questionForm.querySelectorAll('.field-specific').forEach(el => el.style.display = 'none');
+        questionForm.querySelectorAll('.field-specific').forEach(el => {
+            el.style.display = 'none';
+        });
 
-        // Show rows whose data-depends-on contains the selected type
+        // Show rows based on data-depends-on attribute
         if(selectedType) {
-            questionForm.querySelectorAll(`.field-specific[data-depends-on*="${selectedType}"]`).forEach(el => el.style.display = '');
-        }
-
-        // Function to hide specific rows by their input IDs
-        const hideRowsByIds = (ids) => {
-             ids.forEach(id => {
-                const input = document.getElementById(id);
-                if (input) {
-                    const row = input.closest('.form-row');
-                    if (row) row.style.display = 'none';
-                }
-             });
-        };
-        // Function to show specific rows by their input IDs
-        const showRowsByIds = (ids) => {
-             ids.forEach(id => {
-                const input = document.getElementById(id);
-                if (input) {
-                    const row = input.closest('.form-row');
-                    // Check if it was initially targeted by the data-depends-on selector before showing
-                    if (row && row.matches(`.field-specific[data-depends-on*="${selectedType}"]`)) {
-                        row.style.display = ''; 
+            questionForm.querySelectorAll('.field-specific').forEach(el => {
+                const dependsOn = el.getAttribute('data-depends-on');
+                if (dependsOn) {
+                    const types = dependsOn.split(' ');
+                    console.log(`Checking ${el.querySelector('label')?.textContent || 'field'} with depends-on "${dependsOn}" for type "${selectedType}"`);
+                    
+                    if (types.includes(selectedType)) {
+                        console.log(`✓ Showing field for ${selectedType}:`, el);
+                        el.style.display = 'block'; // Force display block
+                        
+                        // Apply styles directly to ensure visibility
+                        setTimeout(() => {
+                            if (el.style.display !== 'block') {
+                                console.log('Field still not displaying, forcing again:', el);
+                                el.style.cssText = 'display: block !important';
+                            }
+                        }, 50);
                     }
                 }
-             });
-        };
-
-         // Special handling for types
-        if (selectedType === 'group') {
-             hideRowsByIds(['field-name', 'placeholder', 'is-required', 'is-hidden', 'options', 'direction', 'min-value', 'max-value', 'step-value', 'default-value', 'date-start-from', 'add-item', 'submit-message', 'submit-message-failed', 'static-value', 'copy-from']);
-             showRowsByIds(['depends-on', 'starts-with', 'show-if']); // Keep conditional logic
-        } else if (selectedType === 'submit') {
-             hideRowsByIds(['field-name', 'placeholder', 'is-required', 'is-hidden', 'options', 'direction', 'min-value', 'max-value', 'step-value', 'default-value', 'date-start-from', 'add-item', 'static-value', 'copy-from', 'depends-on', 'starts-with', 'show-if']);
-             showRowsByIds(['submit-message', 'submit-message-failed']);
-        } else if (selectedType === '') { // Informational
-             hideRowsByIds(['field-name', 'placeholder', 'is-required', 'is-hidden', 'options', 'direction', 'min-value', 'max-value', 'step-value', 'default-value', 'date-start-from', 'add-item', 'submit-message', 'submit-message-failed', 'static-value', 'copy-from', 'depends-on', 'starts-with', 'show-if']);
-        } else if (selectedType === 'hidden') {
-            showRowsByIds(['field-name', 'static-value', 'copy-from']); // Common for hidden
-            hideRowsByIds(['placeholder', 'is-required', 'options', 'direction', 'min-value', 'max-value', 'step-value', 'default-value', 'date-start-from', 'add-item', 'submit-message', 'submit-message-failed']); // Hide others
-        } else if (!['radio', 'select'].includes(selectedType)) {
-            hideRowsByIds(['options', 'direction']); // Hide options/direction if not radio/select
-        } else if (selectedType !== 'radio') {
-             hideRowsByIds(['direction', 'add-item']); // Hide direction/add-item if not radio
-        } else if (selectedType !== 'range') {
-            hideRowsByIds(['min-value', 'max-value', 'step-value', 'default-value']);
-        } else if (selectedType !== 'date') {
-            hideRowsByIds(['date-start-from']);
+            });
         }
+
+        // Handle special cases
+        if (selectedType === '') {
+            // For informational type (no input), only show skip-typing
+            const skipTypingRow = document.getElementById('skip-typing')?.closest('.form-row');
+            if (skipTypingRow) {
+                console.log('Showing skip-typing for informational message:', skipTypingRow);
+                skipTypingRow.style.display = 'block';
+            }
+        }
+        
+        // Log the display state after changes
+        setTimeout(() => {
+            console.log("Display state after changes:", Array.from(questionForm.querySelectorAll('.field-specific')).map(el => {
+                return {
+                    element: el,
+                    dependsOn: el.getAttribute('data-depends-on'),
+                    display: el.style.display,
+                    computedDisplay: window.getComputedStyle(el).display
+                };
+            }));
+        }, 100);
     }
 
     // --- Actions ---

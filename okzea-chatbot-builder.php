@@ -198,7 +198,7 @@ function okzea_chatbot_builder_page_html()
             </div>
 
             <!-- Boolean Options -->
-            <div class="form-row field-specific" data-depends-on="text textarea email tel number date select radio">
+            <div class="form-row field-specific" data-depends-on="text textarea email tel number date select radio group">
               <label>Options</label>
               <div class="checkbox-group">
                 <div class="checkbox-option">
