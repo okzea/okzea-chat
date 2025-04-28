@@ -172,8 +172,6 @@ function okzea_chatbot_populate_default_questions()
 
     // Only populate if the table is empty
     if ($count == 0) {
-        error_log("Okzea Chatbot: Populating questions table with defaults.");
-
         // Define default questions structure (mirroring JS)
         $default_questions = [
             [
@@ -395,8 +393,6 @@ function okzea_chatbot_localize_questions()
  */
 function okzea_chatbot_admin_assets($hook)
 {
-  error_log("okzea_chatbot_admin_assets fired. Hook: " . $hook);
-
   // Define the specific hooks for our plugin pages
   $plugin_pages = [
     //'toplevel_page_okzea-chatbot', // Uncomment if you have a true top-level page callback
@@ -408,10 +404,8 @@ function okzea_chatbot_admin_assets($hook)
 
   // Check if the current hook is one of our plugin pages
   if (!in_array($hook, $plugin_pages)) {
-    error_log("Hook '{$hook}' does not match plugin pages. Skipping asset load.");
     return;
   }
-  error_log("Hook '{$hook}' matched! Loading assets.");
 
   // Enqueue Tailwind-generated admin styles for all plugin admin pages
   wp_enqueue_style(
@@ -444,7 +438,6 @@ function okzea_chatbot_admin_assets($hook)
       'ajax_url' => admin_url('admin-ajax.php'),
       'nonce' => wp_create_nonce('okzea_chatbot_builder_nonce')
     ]);
-    error_log("Data localized for builder script.");
   }
 }
 // Use a priority lower than default (10) if needed, but default should be fine
